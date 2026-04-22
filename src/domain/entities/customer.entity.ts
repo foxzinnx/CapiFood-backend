@@ -33,7 +33,8 @@ export class Customer extends Entity<CustomerProps>{
                 name,
                 createdAt: new Date(),
                 updatedAt: new Date()
-            }
+            },
+            id
         )
     }
 
