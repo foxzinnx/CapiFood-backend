@@ -2,11 +2,12 @@ import { NameTooShortError } from "../errors/name-too-short.error.js";
 import { TooYoungError } from "../errors/too-young.error.js";
 import type { CNPJ } from "../value-objects/cnpj.vo.js";
 import type { Email } from "../value-objects/email.vo.js";
+import { Name } from "../value-objects/name.vo.js";
 import type { UniqueEntityId } from "../value-objects/unique-entity-id.vo.js";
 import { Entity } from "./base.entity.js";
 
 export interface RestaurantOwnerProps {
-    name: string;
+    name: Name;
     email: Email;
     password: string;
     cnpj: CNPJ;
@@ -17,20 +18,20 @@ export interface RestaurantOwnerProps {
 }
 
 export class RestaurantOwner extends Entity<RestaurantOwnerProps>{
-    private static readonly MIN_NAME_LENGTH = 3;
     private static readonly MIN_AGE = 18;
     
     private constructor(props: RestaurantOwnerProps, id?: UniqueEntityId){
         super(props, id);
     }
 
-    static create(props: Omit<RestaurantOwnerProps, 'createdAt' | 'updatedAt'>, id?: UniqueEntityId): RestaurantOwner {
-        RestaurantOwner.validateName(props.name);
+    static create(props: Omit<RestaurantOwnerProps, 'createdAt' | 'updatedAt' | 'name'> & { name: string }, id?: UniqueEntityId): RestaurantOwner {
+        const name = Name.create(props.name)
         RestaurantOwner.validateAge(props.birthDate);
         
         return new RestaurantOwner(
             {
                 ...props,
+                name,
                 createdAt: new Date(),
                 updatedAt: new Date()
             },
@@ -38,14 +39,25 @@ export class RestaurantOwner extends Entity<RestaurantOwnerProps>{
         )
     }
 
-    get name(): string { return this._props.name }
+    get name(): Name { return this._props.name }
     get email(): Email { return this._props.email }
     get password(): string { return this._props.password }
     get cnpj(): CNPJ { return this._props.cnpj }
     get phone(): string { return this._props.phone }
     get birthDate(): Date { return this._props.birthDate }
-    get createdAt(): Date { return this._props.createdAt! }
-    get updatedAt(): Date { return this._props.updatedAt! }
+    get createdAt(): Date { return this._props.createdAt }
+    get updatedAt(): Date { return this._props.updatedAt }
+
+    updateName(name: string): void {
+        const nameVO = Name.create(name);
+        this._props.name = nameVO;
+        this.touch();
+    }
+
+    updateEmail(email: Email): void {
+        this._props.email = email;
+        this.touch();
+    }
 
     updatePassword(hashedPassword: string): void {
         this._props.password = hashedPassword;
@@ -57,10 +69,10 @@ export class RestaurantOwner extends Entity<RestaurantOwnerProps>{
         this.touch();
     }
 
-    private static validateName(name: string): void {
-        if(!name || name.trim().length < RestaurantOwner.MIN_NAME_LENGTH){
-            throw new NameTooShortError();
-        }
+    updateBirthDate(birthDate: Date): void {
+        RestaurantOwner.validateAge(birthDate);
+        this._props.birthDate = birthDate;
+        this.touch();
     }
 
     private static validateAge(birthDate: Date): void {
