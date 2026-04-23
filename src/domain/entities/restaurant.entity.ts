@@ -47,8 +47,8 @@ export class Restaurant extends Entity<RestaurantProps>{
     }
 
     get name(): Name { return this._props.name }
-    get description(): string | null | undefined { return this._props.description }
-    get logoUrl(): string | null | undefined { return this._props.logoUrl }
+    get description(): string | null { return this._props.description ?? null }
+    get logoUrl(): string | null { return this._props.logoUrl ?? null }
     get phone(): string { return this._props.phone }
     get address(): string { return this._props.address }
     get city(): string { return this._props.city }
