@@ -16,6 +16,18 @@ export class Email {
         return new Email(trimmed);
     }
 
+    get value(): string {
+        return this._value;
+    }
+
+    equals(email: Email): boolean {
+        return this._value === email.value
+    }
+
+    toString(): string {
+        return this._value
+    }
+
     private static isValid(value: string): boolean {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         return emailRegex.test(value);
