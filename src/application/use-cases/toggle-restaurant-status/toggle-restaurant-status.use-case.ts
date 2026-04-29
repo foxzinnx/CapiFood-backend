@@ -21,7 +21,7 @@ export class ToggleRestaurantStatusUseCase{
             return left(new ResourceNotFoundError('Restaurant'));
         }
 
-        if(restaurant.id.value !== input.ownerId){
+        if(restaurant.ownerId.value !== input.ownerId){
             return left(new NotAllowedError())
         }
 
