@@ -22,7 +22,7 @@ export class UpdateRestaurantHoursUseCase{
         }
 
         if(restaurant.ownerId.value !== input.ownerId){
-            return left(new NotAllowedError())
+            return left(new NotAllowedError());
         }
 
         restaurant.updateBusinessHours(input.businessHours);
