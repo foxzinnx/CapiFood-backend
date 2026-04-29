@@ -1,3 +1,3 @@
-export interface UpdateRestaurantHoursOuput {
+export interface UpdateRestaurantHoursOutput {
     restaurantId: string;
 }

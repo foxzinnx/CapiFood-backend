@@ -3,11 +3,11 @@ import type { UpdateRestaurantHoursInput } from "./update-restaurant-hours.input
 import { left, right, type Either } from "@/shared/either.js";
 import { ResourceNotFoundError } from "@/domain/errors/resource-not-found.error.js";
 import { NotAllowedError } from "@/domain/errors/not-allowed.error.js";
-import type { UpdateRestaurantHoursOuput } from "./update-restaurant-hours.output.js";
+import type { UpdateRestaurantHoursOutput } from "./update-restaurant-hours.output.js";
 
 type UpdateRestaurantHoursResult = Either<
     ResourceNotFoundError | NotAllowedError,
-    UpdateRestaurantHoursOuput
+    UpdateRestaurantHoursOutput
 >
 
 export class UpdateRestaurantHoursUseCase{
