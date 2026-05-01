@@ -5,5 +5,5 @@ export interface ListRestaurantsOutput{
     total: number;
     page: number;
     perPage: number;
-    totalPage: number;
+    totalPages: number;
 }
