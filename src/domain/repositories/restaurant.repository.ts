@@ -20,6 +20,7 @@ export interface RestaurantRepository {
     create(restaurant: Restaurant): Promise<void>;
     findById(id: string): Promise<Restaurant | null>;
     findByOwnerId(ownerId: string): Promise<Restaurant | null>;
+    findByMenuId(menuId: string): Promise<Restaurant | null>;
     list(filters: ListRestaurantsFilters): Promise<PaginatedResult<Restaurant>>;
     save(restaurant: Restaurant): Promise<void>;
     delete(id: string): Promise<void>;

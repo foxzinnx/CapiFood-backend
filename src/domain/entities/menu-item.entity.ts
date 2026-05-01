@@ -1,3 +1,4 @@
+import { InvalidPriceError } from "../errors/invalid-price.error.js";
 import { Name } from "../value-objects/name.vo.js";
 import type { UniqueEntityId } from "../value-objects/unique-entity-id.vo.js";
 import { Entity } from "./base.entity.js";
@@ -11,6 +12,12 @@ export interface MenuItemProps {
     menuId: UniqueEntityId;
     createdAt: Date;
     updatedAt: Date;
+}
+
+interface UpdateMenuItemDetails{
+    name?: string;
+    description?: string | null;
+    price?: number;
 }
 
 export class MenuItem extends Entity<MenuItemProps>{
@@ -50,11 +57,19 @@ export class MenuItem extends Entity<MenuItemProps>{
         this.touch();
     }
 
-    updateInfo(data: Partial<Pick<MenuItemProps, 'name' | 'description' | 'price'>>): void {
-        if(data.price !== undefined && data.price < 0){
-            throw new Error('The item\'s price must be greater than zero.');
+    updateDetails(data: UpdateMenuItemDetails): void {
+        if(data.name !== undefined){
+            this._props.name = Name.create(data.name);
         }
-        Object.assign(this._props, data);
+
+        if(data.description !== undefined){
+            this._props.description = data.description
+        }
+
+        if(data.price !== undefined){
+            if(data.price <= 0) throw new InvalidPriceError();
+            this._props.price = data.price
+        }
         this.touch();
     }
 
