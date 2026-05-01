@@ -90,7 +90,41 @@ export class Restaurant extends Entity<RestaurantProps>{
         this.touch()
     }
 
+    toOutputDTO(): RestaurantOutputDTO {
+        return {
+            id: this.id.value,
+            name: this._props.name.value,
+            description: this._props.description ?? null,
+            logoUrl: this._props.logoUrl ?? null,
+            phone: this._props.phone,
+            address: this._props.address,
+            city: this._props.city,
+            state: this._props.state,
+            zipCode: this._props.zipCode,
+            isOpen: this._props.isOpen,
+            businessHours: this._props.businessHours ?? [],
+            createdAt: this._props.createdAt!,
+            updatedAt: this._props.updatedAt!,
+        }
+    }
+
     private touch(): void {
         this._props.updatedAt = new Date();
     }
+}
+
+export interface RestaurantOutputDTO {
+  id: string
+  name: string
+  description?: string | null
+  logoUrl?: string | null
+  phone: string
+  address: string
+  city: string
+  state: string
+  zipCode: string
+  isOpen: boolean
+  businessHours: BusinessHoursProps[]
+  createdAt: Date
+  updatedAt: Date
 }

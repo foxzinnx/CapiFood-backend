@@ -1,11 +1,11 @@
 import type { Restaurant } from "../entities/restaurant.entity.js";
 
 export interface ListRestaurantsFilters {
-    search?: string;
-    city?: string;
-    isOpen?: boolean;
-    page?: number;
-    perPage?: number;
+    search?: string | undefined;
+    city?: string | undefined;
+    isOpen?: boolean | undefined;
+    page?: number | undefined;
+    perPage?: number | undefined;
 }
 
 export interface PaginatedResult<T>{
