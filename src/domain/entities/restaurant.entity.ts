@@ -25,6 +25,22 @@ export interface RestaurantProps {
     updatedAt: Date;
 }
 
+interface RestaurantOutputDTO {
+  id: string
+  name: string
+  description?: string | null
+  logoUrl?: string | null
+  phone: string
+  address: string
+  city: string
+  state: string
+  zipCode: string
+  isOpen: boolean
+  businessHours: BusinessHoursProps[]
+  createdAt: Date
+  updatedAt: Date
+}
+
 export class Restaurant extends Entity<RestaurantProps>{
     private constructor(props: RestaurantProps, id?: UniqueEntityId){
         super(props, id);
@@ -111,20 +127,4 @@ export class Restaurant extends Entity<RestaurantProps>{
     private touch(): void {
         this._props.updatedAt = new Date();
     }
-}
-
-export interface RestaurantOutputDTO {
-  id: string
-  name: string
-  description?: string | null
-  logoUrl?: string | null
-  phone: string
-  address: string
-  city: string
-  state: string
-  zipCode: string
-  isOpen: boolean
-  businessHours: BusinessHoursProps[]
-  createdAt: Date
-  updatedAt: Date
 }

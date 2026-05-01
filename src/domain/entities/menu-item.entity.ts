@@ -14,10 +14,22 @@ export interface MenuItemProps {
     updatedAt: Date;
 }
 
-interface UpdateMenuItemDetails{
-    name?: string;
+interface MenuItemOutputDTO {
+    id: string;
+    name: string;
     description?: string | null;
-    price?: number;
+    price: number;
+    imageUrl?: string | null;
+    isAvailable: boolean;
+    menuId: string;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+interface UpdateMenuItemDetails{
+    name?: string | undefined;
+    description?: string | null | undefined;
+    price?: number | undefined;
 }
 
 export class MenuItem extends Entity<MenuItemProps>{
@@ -81,6 +93,20 @@ export class MenuItem extends Entity<MenuItemProps>{
     disable(): void {
         this._props.isAvailable = false;
         this.touch();
+    }
+
+    toOutputDTO(): MenuItemOutputDTO {
+        return {
+            id: this.id.value,
+            name: this._props.name.value,
+            description: this._props.description ?? null,
+            price: this._props.price,
+            imageUrl: this._props.imageUrl ?? null,
+            isAvailable: this._props.isAvailable,
+            menuId: this._props.menuId.value,
+            createdAt: this._props.createdAt!,
+            updatedAt: this._props.updatedAt!
+        }
     }
 
     private touch(): void {
