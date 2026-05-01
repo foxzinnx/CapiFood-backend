@@ -14,7 +14,7 @@ export interface MenuItemProps {
     updatedAt: Date;
 }
 
-interface MenuItemOutputDTO {
+export interface MenuItemOutputDTO {
     id: string;
     name: string;
     description?: string | null;
