@@ -1,0 +1,1 @@
+export type DeleteMenuItemOutput = void;
