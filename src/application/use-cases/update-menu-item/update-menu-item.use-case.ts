@@ -23,7 +23,7 @@ export class UpdateMenuItemUseCase{
             return left(new ResourceNotFoundError('Menu item'));
         }
 
-        const restaurant = await this.restaurantRepository.findByMenuId(menuItem.id.value);
+        const restaurant = await this.restaurantRepository.findByMenuId(menuItem.menuId.value);
         if(!restaurant){
             return left(new ResourceNotFoundError('Restaurant'));
         }
