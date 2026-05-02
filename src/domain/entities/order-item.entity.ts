@@ -8,6 +8,15 @@ export interface OrderItemProps {
     unitPrice: number;
 }
 
+export interface OrderItemOutputDTO {
+  id: string
+  menuItemId: string
+  menuItemName: string
+  quantity: number
+  unitPrice: number
+  subtotal: number
+}
+
 export class OrderItem extends Entity<OrderItemProps>{
     private constructor(props: OrderItemProps, id?: UniqueEntityId){
         super(props, id);
@@ -34,6 +43,17 @@ export class OrderItem extends Entity<OrderItemProps>{
     
         if (props.unitPrice <= 0) {
             throw new Error('The unit price must be greater than zero.')
+        }
+    }
+
+    toOutputDTO(): OrderItemOutputDTO {
+        return {
+            id: this.id.value,
+            menuItemId: this._props.menuItemId.value,
+            menuItemName: this._props.menuItemName,
+            quantity: this._props.quantity,
+            unitPrice: this._props.unitPrice,
+            subtotal: this.subtotal,
         }
     }
 }

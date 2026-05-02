@@ -1,6 +1,6 @@
 import type { UniqueEntityId } from "../value-objects/unique-entity-id.vo.js";
 import { Entity } from "./base.entity.js";
-import type { OrderItem } from "./order-item.entity.js";
+import type { OrderItem, OrderItemOutputDTO } from "./order-item.entity.js";
 
 export type OrderStatus =
     | 'PENDING'
@@ -20,6 +20,18 @@ export interface OrderProps {
     notes?: string | null;
     createdAt: Date;
     updatedAt: Date;
+}
+
+export interface OrderOutputDTO {
+  id: string
+  customerId: string
+  restaurantId: string
+  status: OrderStatus
+  total: number
+  notes: string | null
+  items: OrderItemOutputDTO[]
+  createdAt: Date
+  updatedAt: Date
 }
 
 export class Order extends Entity<OrderProps>{
@@ -74,5 +86,19 @@ export class Order extends Entity<OrderProps>{
     private setStatus(status: OrderStatus): void {
         this._props.status = status;
         this._props.updatedAt = new Date();
+    }
+
+    toOutputDTO(): OrderOutputDTO {
+        return {
+            id: this.id.value,
+            customerId: this._props.customerId.value,
+            restaurantId: this._props.restaurantId.value,
+            status: this._props.status,
+            total: this._props.total,
+            notes: this.notes,
+            items: this._props.items.map((item) => item.toOutputDTO()),
+            createdAt: this._props.createdAt,
+            updatedAt: this._props.updatedAt,
+        }
     }
 }
