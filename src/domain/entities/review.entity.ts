@@ -12,6 +12,16 @@ export interface ReviewProps {
     updatedAt: Date;
 }
 
+export interface ReviewOutputDTO {
+    id: string;
+    customerId: string;
+    restaurantId: string;
+    rating: number;
+    description?: string | null;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
 export class Review extends Entity<ReviewProps>{
     private static readonly MAX_DESCRIPTION_LENGTH = 500;
     
@@ -68,6 +78,18 @@ export class Review extends Entity<ReviewProps>{
     private static validateDescription(description: string): void {
         if(description.trim().length > Review.MAX_DESCRIPTION_LENGTH){
             throw new ReviewDescriptionTooLongError(Review.MAX_DESCRIPTION_LENGTH)
+        }
+    }
+
+    toOutputDTO(): ReviewOutputDTO {
+        return {
+            id: this.id.value,
+            customerId: this._props.customerId.value,
+            restaurantId: this._props.restaurantId.value,
+            rating: this._props.rating.value,
+            description: this._props.description ?? null,
+            createdAt: this._props.createdAt,
+            updatedAt: this._props.updatedAt
         }
     }
 
